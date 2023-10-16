@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Drag and Drop Box</title>
+  <style>
+    #dropbox {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 300px;
+      height: 200px;
+      border: 2px dashed #ccc;
+      text-align: center;
+      padding: 50px;
+      font-size: 20px;
+      border: 5px solid lightblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="dropbox">Drop files here</div>>
+  <script>
+    let dropbox = document.getElementById("dropbox");
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropbox.addEventListener(eventName, preventDefaults, false);
+    });
+
+    // Highlight the drop area when dragging over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropbox.addEventListener(eventName, highlight, false);
+    });
+
+    // Remove highlighting when leaving the drop area
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropbox.addEventListener(eventName, unhighlight, false);
+    });
+
+    // Handle dropped files
+    dropbox.addEventListener('drop', handleDrop, false);
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    function highlight() {
+      dropbox.style.backgroundColor = "lightgray";
+    }
+
+    function unhighlight() {
+      dropbox.style.backgroundColor = "";
+    }
+
+    function handleDrop(e) {
+      var files = e.dataTransfer.files;
+      for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        console.log("File name: " + file.name);
+        console.log("File type: " + file.type);
+        console.log("File size: " + file.size + " bytes");
+        console.log("Last modified: " + file.lastModifiedDate);
+        console.log("--------------------");
+      }
+    }
+  </script>
+</body>
+
+</html>
